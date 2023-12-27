@@ -1,0 +1,10 @@
+powershell
+
+Обновление wsl:
+wsl --update
+
+Установка оболочки Ubuntu:
+wsl --install -d Ubuntu
+
+Использование второй версии wsl:
+wsl --set-default-version 2
