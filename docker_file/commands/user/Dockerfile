@@ -1,5 +1,5 @@
 FROM ubuntu
 
-RUN adduser myuser
+RUN useradd -ms /bin/bash myuser
 
 USER myuser
