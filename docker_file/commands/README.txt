@@ -1,3 +1,3 @@
 RUN
-USER
+USER | ARG
 ADD
