@@ -1,3 +1,2 @@
 RUN
-USER | ARG
-ADD
+USER | ARG | ADD | CMD
