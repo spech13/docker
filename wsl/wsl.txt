@@ -8,3 +8,6 @@ wsl --install -d Ubuntu
 
 Использование второй версии wsl:
 wsl --set-default-version 2
+
+User adding to docker-users group on Windows:
+net localgroup docker-users "user-name" /ADD
