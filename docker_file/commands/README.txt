@@ -1,3 +1,3 @@
 ENV
 RUN
-USER | ARG | ADD | CMD
+USER | ARG | ADD | CMD | COPY
