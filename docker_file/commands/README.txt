@@ -1,2 +1,3 @@
+ENV
 RUN
 USER | ARG | ADD | CMD
