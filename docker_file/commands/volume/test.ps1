@@ -29,7 +29,7 @@ if($container1_change_volume -ceq $container2_change_volume){
     write-host "----------------------------------------------------------"
     write-host "VOLUMES AFTER ADDING volume2 to container1"
     write-host "container1 /apps/volumes: $container1_change_volume"
-    write-host "container1 /apps/volumes: $container1_change_volume"
+    write-host "container2 /apps/volumes: $container1_change_volume"
 
 }else{
     write-host "Error test"
