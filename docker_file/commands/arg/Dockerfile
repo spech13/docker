@@ -18,3 +18,5 @@ RUN useradd -ms /bin/bash $optional_username
 # docker build --build-arg required_username=myuser -t arg-command .
 # docker run -it --rm arg-command
 # ls home/
+
+CMD ["top", "-b"]
