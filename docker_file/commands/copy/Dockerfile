@@ -16,3 +16,5 @@ COPY --chown=myuser1:myuser1  file2.txt /test/
 
 RUN useradd -ms /bin/bash myuser2
 COPY --chown=myuser2:myuser2 --chmod=400 file3.txt /test/
+
+CMD ["top", "-b"]
