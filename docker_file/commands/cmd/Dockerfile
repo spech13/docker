@@ -11,7 +11,9 @@ django-admin startproject myproject
 
 # run Django server
 
-CMD ["python3", "myproject/manage.py", "runserver", "0.0.0.0:8000"]
+CMD ["python3", "myproject/manage.py", "runserver", "0.0.0.0:8080"]
+
+EXPOSE 8080
 
 # docker build -t cmd-command .
 # docker run -it --rm cmd-command
