@@ -1,7 +1,7 @@
 docker build -qt add-image .
 docker run -d --name add-container add-image
 
-$actual_result = (docker exec -t add-container ls -la test)
+$content = (docker exec -t add-container ls -la test)
 
 docker stop add-container 
 docker rm add-container
@@ -9,32 +9,26 @@ docker rmi add-image
 
 clear
 
-function get_actual_str([string]$actual_str) {
-    $conllected_str = ""
-    foreach($item in $actual_str.split(" ")){
-        if ($item -ne ""){
-            $conllected_str = $conllected_str + $item + "$"
-        } 
-    }
-    $arr = $conllected_str.split("$")
-    $actual_str = $arr[0] + " " + $arr[2] + " " + $arr[8]
-    $actual_str
-}
+$content[3] = $content[3].split(" ").where({$_ -ne ""})[0,2,8] -join " " 
+$content[4] = $content[4].split(" ").where({$_ -ne ""})[0,2,8] -join " "
+$content[5] = $content[5].split(" ").where({$_ -ne ""})[0,2,8] -join " "
 
-$actual_str1 = get_actual_str $actual_result[3]
-$actual_str2 = get_actual_str $actual_result[4]
-$actual_str3 = get_actual_str $actual_result[5]
+$actual_result = (
+    $content[3],
+    $content[4],
+    $content[5]
+) -join "`n"
 
-$condition = (
-    $actual_str1 -eq "-rwxr-xr-x root temp.txt" -and
-    $actual_str2 -eq "-rwxr-xr-x myuser temp2.txt" -and
-    $actual_str3 -eq "-r-------- myuser2 temp3.txt"
-)
+$expected_result = (
+    "-rwxr-xr-x root temp.txt",
+    "-rwxr-xr-x myuser temp2.txt",
+    "-r-------- myuser2 temp3.txt"
+) -join "`n"
 
-if($condition){
+if($expected_result -eq $actual_result){
     write-host "--------------------------------------------------"
     write-host "SUCCESS TEST"
-    write-host "$actual_str1`n$actual_str2`n$actual_str3"
+    write-host $actual_result
 }else{
     write-host "ERROR TEST"
 }
