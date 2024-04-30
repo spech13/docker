@@ -1,3 +1,3 @@
 FROM ubuntu
 
-MAINTAINER OrganizationName
+MAINTAINER author-name
