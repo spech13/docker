@@ -1,3 +1,5 @@
-FROM onbuild-image
+# child image
 
-RUN echo "FILE CREATED AFTER ONBUILD COMMAND" > /onbuild-dir/main-file  
+FROM base-onbuild-image
+
+RUN echo "ONBUILD IMAGE FILE" > /test/onbuild

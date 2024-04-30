@@ -1,26 +1,44 @@
-docker build -f Dockerfile-onbuild . -qt onbuild-image
+docker build -f Base-Dockerfile . -qt base-onbuild-image
+docker run --name base-onbuild-container -d base-onbuild-image
 
-$onbuil_dir_content = (docker run --rm onbuild-image ls /onbuild-dir)
-$first_onbuild_content = (docker run --rm onbuild-image cat /onbuild-dir/first-onbuild)
+$base_content = (docker exec base-onbuild-container ls /test)
+$base_content = "$base_content '$(docker exec base-onbuild-container cat /test/base-onbuild)'"
 
-docker build -f Dockerfile . -qt child-onbuild-image
+docker stop base-onbuild-container
+docker rm base-onbuild-container
 
-$main_onbuil_dir_content = (docker run --rm child-onbuild-image ls /onbuild-dir)
-$second_onbuild_content = (docker run --rm child-onbuild-image cat /onbuild-dir/second-onbuild)
-$main_file_content = (docker run --rm child-onbuild-image cat /onbuild-dir/main-file)
+docker build -qt onbuild-image .
+docker run --name onbuild-container -d onbuild-image
 
-docker rmi child-onbuild-image
+$content = (docker exec onbuild-container ls /test)
+$content[0] = "$($content[0]) '$(docker exec onbuild-container cat /test/base-onbuild)'"
+$content[1] = "$($content[1]) '$(docker exec onbuild-container cat /test/from-onbuild)'"
+$content[2] = "$($content[2]) '$(docker exec onbuild-container cat /test/onbuild)'"
+$content = $content -join "`n"
+
+docker stop onbuild-container
+docker rm onbuild-container
 docker rmi onbuild-image
 
-clear
+docker rmi base-onbuild-image
 
-write-host "------------------------------------------------------------------------------"
-write-host "ONBUILD IMAGE`n"
-write-host "onbuild-dir content: $onbuil_dir_content"
-write-host "first-onbuild content: $first_onbuild_content`n"
-write-host "------------------------------------------------------------------------------"
-write-host "CHILD ONBUILD IMAGE`n"
-write-host "onbuild-dir content: $main_onbuil_dir_content"
-write-host "first-onbuild content: $first_onbuild_content"
-write-host "second-onbuild content: $second_onbuild_content"
-write-host "main-file content: $main_file_content"
+Clear-Host
+
+$expected_base_content = "base-onbuild 'BASE ONBUILD IMAGE FILE'"
+
+$expected_content = (
+    "base-onbuild 'BASE ONBUILD IMAGE FILE'",
+    "from-onbuild 'FILE FROM BASE ONBUILD IMAGE'",
+    "onbuild 'ONBUILD IMAGE FILE'"
+) -join "`n"
+
+if($base_content -eq $expected_base_content -and $expected_content -eq $content){
+    Write-Host "---------------------------------"
+    Write-Host "SUCCESS TEST"
+    Write-Host "Base onbuild container content:"
+    Write-Host $base_content
+    Write-Host "Onbuild container content:"
+    Write-Host $content
+}else {
+    Write-Host "ERROR TEST"
+}

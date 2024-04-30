@@ -1,5 +1,0 @@
-FROM ubuntu
-
-RUN mkdir /onbuild-dir
-RUN echo "FILE CREATED BEFORE ONBUILD COMMAND" > /onbuild-dir/first-onbuild
-ONBUILD RUN echo "FILE CREATED ONBUILD CONMMAND" > /onbuild-dir/second-onbuild

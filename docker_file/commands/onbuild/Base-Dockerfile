@@ -1,0 +1,12 @@
+# base image
+
+FROM ubuntu
+
+RUN mkdir /test
+RUN echo "BASE ONBUILD IMAGE FILE" > /test/base-onbuild
+
+# onbuild instruction will be executed in child image
+
+ONBUILD RUN echo "FILE FROM BASE ONBUILD IMAGE" > /test/from-onbuild
+
+CMD ["top", "-b"]
