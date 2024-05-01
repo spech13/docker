@@ -1,6 +1,6 @@
 FROM ubuntu
 
-# crating myuser
+# creating myuser
 
 RUN useradd -ms /bin/bash myuser
 
@@ -10,4 +10,6 @@ WORKDIR /home/myuser
 
 # copying myuserfile.txt to /home/myuser directory
 
-COPY --chown=myuser:myuser --chmod=400 myuserfile.txt .
+COPY --chown=myuser:myuser --chmod=400 myuserfile .
+
+CMD ["top", "-b"]
