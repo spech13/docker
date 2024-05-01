@@ -1,0 +1,7 @@
+name: foo-application
+
+services:
+  foo:
+    image: ubuntu
+    command: echo "I'm running ${COMPOSE_PROJECT_NAME}"
+    container_name: "foo-container"
